@@ -7,24 +7,24 @@
 	box-sizing: border-box;
 }
 
-body {
+.loginForm {
 	padding: 0;
 	margin: 0;
 	font-family: "Raleway", "Arial", "sans-serif";
     background-color: #e5e5e5;
 }
 
-section {
+.section-login {
     height: 100%;
     margin: 0;
     padding: 0 30px 25px;
 }
 
-header {
+.header-login {
     width: 100%;
     background-color: #fff;
     margin-bottom: 120px;
-}
+} 
 
 .logo {
     display: block;
@@ -57,7 +57,6 @@ header {
 /* Sign up / Registration Form */
 
 .form .register {
-    display: none;
     margin: 0 auto;
     width: 100%;
     max-width: 500px;
@@ -133,7 +132,7 @@ header {
     box-shadow: 4px 3px 3px #b4b4b4;
 }
 
-h1 {
+.h1-login {
     margin: 0;
     font-weight: 600;
     text-align: center;
