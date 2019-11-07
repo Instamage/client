@@ -2,24 +2,12 @@
   <div>
       <nav-bar @showListForm='showFormList' @showUpdateForm='showFormUpdate' @isLogin='isLogin'></nav-bar>
       <div class="container " style="max-width:1400px;margin-top:80px">    
-        <!-- The Grid -->
-        <div class="test"> 
-            <side-nav-bar></side-nav-bar>
-            <!-- Middle Column -->          
+        <div class="main-body"> 
+            <side-nav-bar @showListForm='showFormList' @showUpdateForm='showFormUpdate'></side-nav-bar>         
             <middle-column :showList='showList' :updateForm='updateForm'></middle-column>
-            
-            <!-- Right Column -->
-            <!-- <right-column></right-column> -->
-            
-        <!-- End Grid -->
         </div>
-        
-    <!-- End Page Container -->
     </div>
-    <br>
-
-    <!-- Footer -->
-    <footer class="container w3-theme-d3 w3-padding-16">
+    <footer class="footer-home">
     <h5>Footer</h5>
     </footer>
   </div>
@@ -41,7 +29,9 @@ export default {
         return {
             updateForm: false,
             showList: true,
-            loggedIn: true
+            loggedIn: {
+                status:true
+            }
         }
     },
     methods: {
@@ -53,17 +43,19 @@ export default {
         },
         isLogin (input) {
             this.loggedIn = input
+            this.$emit('isLogin', this.loggedIn)
         }
-    },
-    watch: {
-        loggedIn: fun
     }
 }
 </script>
 
 <style>
-.test {
+.main-body {
     display: flex;
     flex-direction: row;
+}
+.footer-home {
+    background-color: #4d636f;
+    height: 100px;
 }
 </style>

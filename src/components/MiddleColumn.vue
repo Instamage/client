@@ -2,76 +2,118 @@
   <div>
       <div class="col-12">
         <update-profile v-if="updateForm"></update-profile>
-        <div class="row" v-if="showList">
-            <div class="col">
-                <div class="card shadow p-3 mb-5 ">
-                    <form @submit.prevent="createPhoto()" enctype="multipart/form-data">
-                        <div class="container p-1">
-                            <h6 class="">What's your mood today ?</h6>
-                            <div class="custom-file">
-                                <input @change="previewImage" id="input-file" class="custom-file-input" type="file" />
-                                <label class="custom-file-label" for="validatedCustomFile"></label>
-                            </div>
-                            <div class="d-flex justify-content-center mt-2">
-                                <div class="image-preview" v-if="imageData.length > 0">
-                                    <img class="preview" :src="imageData" width="100%">
+        <div v-if="showList.status">
+            <div class="row" >
+                <div class="col">
+                    <div class="card shadow p-3 mb-5 ">
+                        <form @submit.prevent="createPhoto()" enctype="multipart/form-data">
+                            <div class="container p-1">
+                                <h6 class="">What's your mood today ?</h6>
+                                <div class="custom-file">
+                                    <input @change="previewImage" id="input-file" class="custom-file-input" type="file" />
+                                    <label class="custom-file-label" for="validatedCustomFile"></label>
+                                </div>
+                                <div class="d-flex justify-content-center mt-2">
+                                    <div class="image-preview" v-if="imageData.length > 0">
+                                        <img class="preview" :src="imageData" width="100%">
+                                    </div>
+                                </div>
+                                <h6>Captions</h6>
+                                <input type="text" class="form-control" v-model="captions">
+                                <br>
+                                <div class="d-flex justify-content-center">
+                                    <button class="btn btn-isi" type="submit" >Create Post</button>
                                 </div>
                             </div>
-                            <h6>Captions</h6>
-                            <input type="text" class="form-control" v-model="captions">
-                            <br>
-                            <div class="d-flex justify-content-center">
-                                <button class="btn btn-isi" type="submit" >Create Post</button>
-                            </div>
-                        </div>
-                    </form> 
+                        </form> 
+                    </div>
                 </div>
             </div>
+            <div v-for="(data, index) in showList.arrData" :key="index">
+            <div class="container card shadow p-3 mb-5 bg-white rounded">
+                <div class="row">
+                    <h6 class="m-3">{{data.userId.username}}</h6>
+                </div>
+                <div class="col">
+                    <div class="row">
+                    <img :src="data.image_url" alt="Avatar" class="img-thumbnai" width="100%">
+                    <!-- <img src="https://media.suara.com/pictures/480x260/2014/04/21/shutterstock_123414550.jpg" alt="Avatar" width="100%" class="img-thumbnail"> -->
+                </div>
+                <div class="row">
+                    <!-- <p>{{captions}}</p> -->
+                    <p>{{data.caption}}</p>
+                </div>
+                <div class="row justify-content-between">
+                    <button class="btn btn-isi" @click="like(data._id)"><i class="fa fa-thumbs-up"></i>  Like</button>
+                    <p>Total Like: &nbsp;{{data.Likes.length}} </p>
+                </div>
+                <br>
+                <div class="row justify-content-between">
+                    <button class="btn btn-isi" @click="comment(data._id)" data-target="#commentForm" data-toggle="modal"><i class="fa fa-comment"></i>  Comment</button>
+                    <p>Total Comments: &nbsp;{{data.comments.length}} </p>
+                </div>  
+            </div>
         </div>
-        <div class="container card shadow p-3 mb-5 bg-white rounded">
-            <div class="row">
-                <h6 class="m-3">Username</h6>
-            </div>
-            <div class="col">
-                 <div class="row">
-                <!-- <img :src="url" alt="Avatar" class="left circle margin-right" width="100%"> -->
-                <img src="https://media.suara.com/pictures/480x260/2014/04/21/shutterstock_123414550.jpg" alt="Avatar" width="100%" class="img-thumbnail">
-            </div>
-            <div class="row">
-                <!-- <p>{{captions}}</p> -->
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-            </div>
-            <div class="row justify-content-between">
-                <button class="btn btn-isi" @click="like(_id)"><i class="fa fa-thumbs-up"></i>  Like</button>
-                <p>Total Like: </p>
-            </div>
-            <br>
-            <div class="row">
-                <button class="btn btn-isi" @click="comment(_id)"><i class="fa fa-comment"></i>  Comment</button>
-            </div>
-            
-            </div>
-        </div>  
 
-        <div class="container card shadow p-3 mb-5 bg-white rounded">
+        <div class="modal fade" id="commentForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Comments</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            
+                            <div class="form-group" >
+                                <label>{{data.comments.length}}</label>
+                                <div v-for="(commentar,i) in data.comments" :key="i">
+                                    <h5>{{commentar.username}}</h5>
+                                    <br>
+                                    <p>{{commentar.comment}}</p>
+                                </div>
+                            </div>
+                            <form >
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="comment ..." v-model="userComment">
+                            </div>
+                            </form>
+                            <div class="modal-footer">
+                            <button type="button" class="btn btn-light" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn bg-warning" data-dismiss="modal" @click="createComment">Sign In</button>
+                            </div>
+                        </div>
+                        <!-- <div class="modal-footer">
+                            <button type="button" class="btn btn-light" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn bg-warning" data-dismiss="modal" >Sign In</button>
+                        </div> -->
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+
+        <!-- <div class="container card shadow p-3 mb-5 bg-white rounded">
             <div class="row">
                 <h6 class="m-3">Username</h6>
             </div>
             <div class="col">
                  <div class="row">
-                <!-- <img :src="url" alt="Avatar" class="left circle margin-right" width="100%"> -->
+                <img :src="url" alt="Avatar" class="left circle margin-right" width="100%">
                 <img src="https://media.suara.com/pictures/480x260/2014/04/21/shutterstock_123414550.jpg" alt="Avatar" width="100%">
             </div>
             <div class="row">
-                <!-- <p>{{captions}}</p> -->
+                <p>{{captions}}</p>
                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
             </div>
             
             <button class="btn btn-isi"><i class="fa fa-thumbs-up"></i>  Like</button> 
             <button class="btn btn-isi"><i class="fa fa-comment"></i>  Comment</button>
             </div>
-        </div>  
+        </div>   -->
 
+        
         <!-- End Middle Column -->
     </div>
   </div>
@@ -80,7 +122,7 @@
 <script>
 import swal from 'sweetalert2'
 import axios from 'axios'
-import UpdateProfile from './UpdateProfile';
+import UpdateProfile from './UpdateProfile'
 export default {
     name: 'MiddleColumn',
     props: ['updateForm', 'showList'],
@@ -94,11 +136,41 @@ export default {
             formUploadImage: {
                 image: ''
             },
-            url: ''
+            url: '',
+            userComment: '',
+            id : ''
         }
     },
     methods: {
-         previewImage (event) {
+        createComment () {
+            console.log('masuk')
+            axios({
+                url: `http://localhost:3000/posts/comment/${this.id}`,
+                method: 'post',
+                data: {
+                    comment: this.userComment
+                },
+                headers: {
+                    token: localStorage.getItem('token')
+                }
+            })
+            .then (({ data }) => {
+                this.fetchingData()
+                console.log(data)
+                this.id = ''
+                this.userComment = ''
+            })
+            .catch (err => {
+                console.log(err)
+            })
+        },
+        comment (id) {
+            this.id = id
+            axios({
+                url: `http://localhost:3000/posts`
+            })
+        },
+        previewImage (event) {
             var input = event.target
             if (input.files && input.files[0]) {
                 var reader = new FileReader()
@@ -126,12 +198,15 @@ export default {
                 })
                 let { image } = this.formUploadImage
                 var bodyFormData = new FormData()
-                bodyFormData.append('images', image)
-                bodyFormData.append('captions', this.captions)
+                bodyFormData.append('image', image)
+                bodyFormData.append('caption', this.captions)
                 axios({
-                    url: 'http://localhost:3000/upload',
+                    url: 'http://localhost:3000/posts',
                     method: 'post',
-                    data: bodyFormData
+                    data: bodyFormData,
+                    headers: {
+                        token: localStorage.getItem('token')
+                    }
                 })
                 .then (({ data }) => {
                     console.log(data)
@@ -158,7 +233,39 @@ export default {
                     })
                 })
             }
+        },
+        like (id) {
+            axios({
+                url: `http://localhost:3000/posts/like/${id}`,
+                method: 'patch',
+                headers: {
+                    token: localStorage.getItem('token')
+                }
+            })
+            .then (({ data }) => {
+                console.log(data)
+                this.fetchingData()
+            })
+            .catch (err => {
+                console.log(err)
+            })
+        },
+        fetchingData () {
+            axios({
+                url: `http://localhost:3000/posts/all`,
+                method: 'get'
+            })
+            .then (({ data }) => {
+                this.showList.arrData = data
+                console.log(data)
+            })
+            .catch (err => {
+                console.log(err)
+            })
         }
+    },
+    created () {
+        this.fetchingData()
     }
 }
 </script>
