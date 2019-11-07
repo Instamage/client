@@ -1,0 +1,86 @@
+<html>
+
+	<head>
+
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width" />
+		<title>Form</title>
+		<link rel="stylesheet" type="text/css" href="./css/styles.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+		<link href='https://fonts.googleapis.com/css?family=Raleway:400,500,600' rel='stylesheet' type='text/css'>
+
+	</head>
+    
+    <body class="loginForm">
+    
+        <header class="header-login">
+            <div class="border"></div>
+        </header>
+        
+        <section class="section-login">
+           <div class="form">
+               
+               <!-- Sign up / Registration Form -->
+               
+                <div class="register">
+                    <h1 class="h1-login">Join for free!</h1>
+                    <p class="accounta">Already have an account? <a href="#">Sign in</a></p>
+
+                    <form>
+
+                        <div class="form-item">
+                            <label for="input">email address</label>
+                            <input type="email" class="field" name="email" placeholder="someone@example.com" value required>
+                        </div>
+                        <div class="form-item">
+                            <label for="input">password</label>
+                            <input type="password" id="password" class="field" name="password" placeholder="password" value required>
+                        </div>
+                        <div class="form-item">
+                            <label for="input">confirm password</label>
+                            <input type="password" id="confirm-password" class="field" name="password" placeholder="confirm password" value required>
+                        </div>
+                        <div class="form-item">
+                            <button type="submit" class="reg-btn">Sign up</button>
+                        </div>
+
+                    </form>
+                </div>
+               
+               <!-- Sign up Form -->
+
+                <div class="signin">
+                    <h1 class="h1-login">Sign in</h1>
+                    <p class="accountb">Don't have an account? <a href="#">Sign up</a></p>
+
+                    <form>
+
+                        <div class="form-item">
+                            <label for="input">email address</label>
+                            <input type="email" class="field" name="email" placeholder="someone@example.com" value required>
+                        </div>
+                        <div class="form-item">
+                            <label for="input">password</label>
+                            <input type="password" class="field" name="password" placeholder="password" value required>
+                        </div>
+                        <div class="form-item">
+                            <input type="checkbox" id="cbox1" value="first_checkbox" checked>
+                            <label for="cbox1">Remember Me</label>
+                        </div>
+                        <div class="form-item">
+                            <button type="submit" class="signin-btn">Sign in</button>
+                        </div>
+                        <a href="#" class="forgot">Forgot Password?</a>
+
+                    </form>
+                </div>
+               
+            </div>
+            
+            <div class="legal-container">
+                <h2>&copy; 2019 Instamage, LLC.</h2>
+            </div>
+        </section>
+    <script src="./js/login.js"></script>
+    </body>
+</html>
