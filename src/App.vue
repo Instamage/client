@@ -1,5 +1,6 @@
 <template>
   <div>
+    <Home></Home>
     <login-register></login-register>
   </div>
 </template>
