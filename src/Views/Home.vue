@@ -7,8 +7,10 @@
             <middle-column :showList='showList' :updateForm='updateForm' class="col" @url="url"></middle-column>
         </div>
     </div>
-    <footer class="footer-home">
-    <h5>Footer</h5>
+    <footer class="footer-home" style="text-align: center; height: 20%">
+    <br>
+    <p><b>@Instamage by FullStuck Developer</b></p>
+    <br>
     </footer>
   </div>
 </template>

@@ -18,8 +18,8 @@
                                         <img class="preview" :src="imageData" width="100%">
                                     </div>
                                 </div>
-                                <h6>Captions</h6>
-                                <input type="text" class="form-control" v-model="captions">
+                                <!-- <h6>Captions</h6> -->
+                                <input type="text" placeholder="caption" class="form-control" v-model="captions">
                                 <br>
                                 <div class="d-flex justify-content-center">
                                     <button class="btn btn-isi" type="submit" >Create Post</button>
@@ -31,8 +31,9 @@
             </div>
             <div v-for="(data, index) in showList.arrData" :key="index">
             <div class="container card shadow p-3 mb-5 bg-white rounded">
-                <div class="row">
-                    <h6 class="m-3">{{data.userId.username}}</h6>
+                <div class="row align-items-center">
+                    <img v-bind:src="data.userId.profile_img" style="width: 10%; padding-left: 15px"/> 
+                    <h6 class="m-3"><b>{{data.userId.username}}</b></h6>
                 </div>
                 <div class="col">
                     <div class="row">
@@ -41,17 +42,13 @@
                 </div>
                 <div class="row">
                     <!-- <p>{{captions}}</p> -->
-                    <p>{{data.caption}}</p>
+                    <p><b>{{data.userId.username}}</b> {{data.caption}}</p>
                 </div>
-                <div class="row justify-content-between">
-                    <button class="btn btn-isi" @click="like(data._id)"><i class="fa fa-thumbs-up"></i>  Like</button>
-                    <p>Total Like: &nbsp;{{data.Likes.length}} </p>
+                <div class="row justify-content-start" style="display: flex; justify-content: flex-start;">
+                    <button class="btn btn-isi" @click="like(data._id)"><i class="fa fa-thumbs-up"></i> {{data.Likes.length}} </button>
+                    <button class="btn btn-isi ml-1" @click="comment(data)" data-target="#commentForm" data-toggle="modal"><i class="fa fa-comment"> {{data.comments.length}} </i></button>
                 </div>
                 <br>
-                <div class="row justify-content-between">
-                    <button class="btn btn-isi" @click="comment(data)" data-target="#commentForm" data-toggle="modal"><i class="fa fa-comment"></i>  Comment</button>
-                    <p>Total Comments: &nbsp;{{data.comments.length}} </p>
-                </div>  
             </div>
         </div>
     </div>
@@ -66,9 +63,7 @@
                         </div>
                         <div class="modal-body">
                             <div class="form-group" v-for="(comment, index) in data.comments" :key="index">
-                                <h5>{{comment.username}}</h5>
-                                <br>
-                                <p>{{comment.comment}}</p>
+                                <p><b>{{comment.username}}</b> {{comment.comment}}</p>
                             </div>
                             <form >
                             <div class="form-group">

@@ -3,9 +3,9 @@
         <div class="card shadow p-3 mb-5 bg-white rounded">
             <div class="m-2">
             <h4 class="w3-center">My Profile</h4>
-            <img :src="profilePicture" class="rounded-circle" width="100%" alt="Avatar">
+            <img :src="profilePicture" class="rounded-circle" width="100%" height="100%"  alt="Avatar">
             <hr>
-            <p><i class="fa fa-address-card-o fa-fw "></i> {{username}}</p>
+            <p><i class="fa fa-address-card-o fa-fw "></i><b> {{username}}</b></p>
             <!-- <p><i class="fa fa-home fa-fw "></i> London, UK</p>
             <p><i class="fa fa-birthday-cake fa-fw "></i> April 1, 1988</p> -->
             </div>
