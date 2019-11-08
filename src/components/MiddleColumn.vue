@@ -39,8 +39,8 @@
                                         <img class="preview" :src="imageData" width="100%">
                                     </div>
                                 </div>
-                                <h6>Captions</h6>
-                                <input type="text" class="form-control" v-model="captions">
+                                <!-- <h6>Captions</h6> -->
+                                <input type="text" placeholder="caption" class="form-control" v-model="captions">
                                 <br>
                                 <div class="d-flex justify-content-center">
                                     <button class="btn btn-isi" type="submit" >Create Post</button>
@@ -83,19 +83,15 @@
                     <img :src="data.image_url" alt="Avatar" class="img-thumbnai" width="100%">
                     <!-- <img src="https://media.suara.com/pictures/480x260/2014/04/21/shutterstock_123414550.jpg" alt="Avatar" width="100%" class="img-thumbnail"> -->
                 </div>
-                <div class="row justify-content-between">
-                    <p>Total Like: &nbsp;{{data.Likes.length}} </p>
-                    <p>Total Comments: &nbsp;{{data.comments.length}} </p>
-                </div>
-                <br>
-                <div class="row justify-content-between">
-                    <button class="btn btn-isi" @click="like(data._id)"><i class="fa fa-thumbs-up"></i>  Like</button>
-                    <button class="btn btn-isi" @click="comment(data)" data-target="#commentForm" data-toggle="modal"><i class="fa fa-comment"></i>  Comment</button>
-                </div> 
                 <div class="row">
                     <!-- <p>{{captions}}</p> -->
-                    <p class="m-3" style="font-weight: bold; font-size: 18px;">{{data.userId.username}}</p> <span class="ml-1 mt-3">{{data.caption}}</span> 
+                    <p><b>{{data.userId.username}}</b> {{data.caption}}</p>
                 </div>
+                <div class="row justify-content-start" style="display: flex; justify-content: flex-start;">
+                    <button class="btn btn-isi" @click="like(data._id)"><i class="fa fa-thumbs-up"></i> {{data.Likes.length}} </button>
+                    <button class="btn btn-isi ml-1" @click="comment(data)" data-target="#commentForm" data-toggle="modal"><i class="fa fa-comment"> {{data.comments.length}} </i></button>
+                </div>
+                <br>
             </div>
         </div>
         
@@ -109,21 +105,22 @@
                         <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <div class="modal-body">
-                        <div class="form-group" v-for="(comment, index) in data.comments" :key="index">
-                            <h5>{{comment.username}}</h5>
-                            <br>
-                            <p>{{comment.comment}}</p>
+
+                        <div class="modal-body">
+                            <div class="form-group" v-for="(comment, index) in data.comments" :key="index">
+                                <p><b>{{comment.username}}</b> {{comment.comment}}</p>
+                            </div>
+                            <form >
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="comment ..." v-model="userComment">
+                            </div>
+                            </form>
+                            <div class="modal-footer">
+                            <button type="button" class="btn btn-light" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-isi" data-dismiss="modal" @click="createComment">Comment</button>
+                            </div>
                         </div>
-                        <form >
-                        <div class="form-group">
-                            <input type="text" class="form-control" placeholder="comment ..." v-model="userComment">
-                        </div>
-                        </form>
-                        <div class="modal-footer">
-                        <button type="button" class="btn btn-light" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-isi" data-dismiss="modal" @click="createComment">Comment</button>
-                        </div>
+                        
                     </div>
                     <!-- <div class="modal-footer">
                         <button type="button" class="btn btn-light" data-dismiss="modal">Close</button>
