@@ -1,0 +1,25 @@
+{
+  "name": "client",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Instamage/client.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Instamage/client/issues"
+  },
+  "homepage": "https://github.com/Instamage/client#readme",
+  "dependencies": {
+    "axios": "^0.19.0",
+    "sweetalert2": "^9.1.5",
+    "vue": "^2.6.10"
+  }
+}
