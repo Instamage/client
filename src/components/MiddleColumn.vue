@@ -2,6 +2,27 @@
   <div>
       <div class="col-12">
         <update-profile v-if="updateForm" @image_url='imageUrl'></update-profile>
+       
+        <div v-if="allUser.status">
+            <div class="d-flex flex-wrap">
+                <div class="col-3"  v-for="(user, index) in arrAllUser" :key="index">
+                    <div class="card mt-2">
+                        <div class="card-header">
+                            <h3>{{user.username}}</h3>
+                        </div>
+                        <div class="card-body">
+                            <p>Follower Count: &nbsp;{{user.Followers.length}}</p>
+                        </div>
+                        <div class="card-body">
+                            <p>Follower Count: &nbsp;{{user.Followers.length}}</p>
+                        </div>
+                        <button @click='followUser(user._id)'>Follow</button>
+                        <button @click="showUserPost(user._id)">Post</button>
+                    </div>
+                </div>
+            </div>
+             <!-- <h1>{{arrAllUser}}</h1> -->
+        </div>
         <div v-if="showList.status">
             <div class="row" >
                 <div class="col">
@@ -10,7 +31,7 @@
                             <div class="container p-1">
                                 <h6 class="">What's your mood today ?</h6>
                                 <div class="custom-file">
-                                    <input @change="previewImage" id="input-file" class="custom-file-input" type="file" />
+                                    <input @change="previewImage" id="input-file" class="custom-file-input" type="file" accept="image/*"/>
                                     <label class="custom-file-label" for="validatedCustomFile"></label>
                                 </div>
                                 <div class="d-flex justify-content-center mt-2">
@@ -77,41 +98,42 @@
                 </div>
             </div>
         </div>
+        
     </div>
     <div class="modal fade" id="commentForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Comments</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                            </button>
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Comments</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group" v-for="(comment, index) in data.comments" :key="index">
+                            <h5>{{comment.username}}</h5>
+                            <br>
+                            <p>{{comment.comment}}</p>
                         </div>
-                        <div class="modal-body">
-                            <div class="form-group" v-for="(comment, index) in data.comments" :key="index">
-                                <h5>{{comment.username}}</h5>
-                                <br>
-                                <p>{{comment.comment}}</p>
-                            </div>
-                            <form >
-                            <div class="form-group">
-                                <input type="text" class="form-control" placeholder="comment ..." v-model="userComment">
-                            </div>
-                            </form>
-                            <div class="modal-footer">
-                            <button type="button" class="btn btn-light" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-isi" data-dismiss="modal" @click="createComment">Comment</button>
-                            </div>
+                        <form >
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="comment ..." v-model="userComment">
                         </div>
-                        <!-- <div class="modal-footer">
-                            <button type="button" class="btn btn-light" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn bg-warning" data-dismiss="modal" >Sign In</button>
-                        </div> -->
+                        </form>
+                        <div class="modal-footer">
+                        <button type="button" class="btn btn-light" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-isi" data-dismiss="modal" @click="createComment">Comment</button>
                         </div>
                     </div>
+                    <!-- <div class="modal-footer">
+                        <button type="button" class="btn btn-light" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn bg-warning" data-dismiss="modal" >Sign In</button>
+                    </div> -->
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
   </div>
 </template>
 
@@ -121,7 +143,7 @@ import axios from 'axios'
 import UpdateProfile from './UpdateProfile'
 export default {
     name: 'MiddleColumn',
-    props: ['updateForm', 'showList'],
+    props: ['updateForm', 'showList', 'allUser'],
     components: {
         UpdateProfile
     },
@@ -137,10 +159,61 @@ export default {
             userComment: '',
             data: {
 
+            },
+            arrAllUser: [],
+            showPostUser: {
+                data: [],
+                status: true
             }
         }
     },
     methods: {
+        showUserPost (id) {
+            console.log(id)
+            axios({
+                url: `http://localhost:3000/posts/postuser/${id}`,
+                method: 'get',
+                headers: {
+                    token: localStorage.getItem('token')
+                }
+            })
+            .then (({ data }) => {
+                console.log(data)
+                
+                this.showList.status = true
+                this.showList.arrData = data.reverse()
+                console.log(this.showList.status)
+                console.log(this.showList.arrData) 
+                this.allUser.status = false
+            })
+            .catch (err => {
+                console.log(err)
+            })
+        },
+        followUser (id) {
+            axios({
+                url: `http://localhost:3000/users/send/${id}`,
+                method: 'patch',
+                headers: {
+                    token: localStorage.getItem('token')
+                }
+            })
+            .then (({ data }) => {
+                return axios({
+                    url: `http://localhost:3000/users`,
+                    method: 'get',
+                    headers: {
+                        token: localStorage.getItem('token')
+                    }
+                })
+            })
+            .then (({ data }) => {
+                this.arrAllUser = data
+            })
+            .catch (err => {
+                console.log(err)
+            })
+        },
         imageUrl (input) {
             this.url = input
             this.$emit('url', this.url)
@@ -265,6 +338,19 @@ export default {
                 console.log(err)
             })
         }
+    },
+    watch: {
+        allUser: {
+            handler(val) {
+                if (val.status) {
+                    this.arrAllUser = val.arrUser
+                    console.log(this.arrAllUser)
+                    console.log(val.status)
+                }
+            },
+            data: true
+        },
+        
     },
     created () {
         this.fetchingData()

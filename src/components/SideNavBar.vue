@@ -31,7 +31,8 @@ export default {
         return {
             profilePicture: '',
             arrData: [],
-            username: localStorage.getItem('username')
+            username: localStorage.getItem('username'),
+            arrUser: []
         }
     },
     methods: {
@@ -47,6 +48,7 @@ export default {
                 this.arrData = data.reverse()
                 this.$emit('showListForm', {arrData: this.arrData, status:true })
                 this.$emit('showUpdateForm', false)
+                this.$emit('showAllUser', false)
                 console.log(data)
             })
             .catch (err => {
@@ -67,11 +69,31 @@ export default {
                 this.arrData = data.reverse()
                 this.$emit('showListForm', {arrData: this.arrData, status:true })
                 this.$emit('showUpdateForm', false)
+                this.$emit('showAllUser', false)
             })
             .catch (err => {
                 console.log(err)
             })
         },
+        showAllUser () {
+            axios({
+                url: 'http://localhost:3000/users',
+                method: 'get',
+                headers: {
+                    token: localStorage.getItem('token')
+                }
+            })
+            .then (({ data }) => {
+                this.arrUser = data
+                console.log(this.arrUser)
+                this.$emit('showListForm', {arrData:[], status: false})
+                this.$emit('showUpdateForm', false)
+                this.$emit('showAllUser', {arrUser: this.arrUser, status:true})
+            })
+            .catch (err => {
+
+            })
+        }
     },
     watch: {
         dataUrl: {

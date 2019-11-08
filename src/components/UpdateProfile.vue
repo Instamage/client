@@ -4,7 +4,7 @@
         <form @submit.prevent='updateProfile'>
             <h2>Update Profile</h2>
             <div class="custom-file">
-                <input @change="previewImage" id="input-file" class="custom-file-input" type="file" />
+                <input @change="previewImage" id="input-file" class="custom-file-input" type="file" accept="image/*"/>
                 <label class="custom-file-label" for="validatedCustomFile"></label>
             </div>
             <div class="d-flex justify-content-center mt-2">
