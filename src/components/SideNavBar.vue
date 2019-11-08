@@ -3,7 +3,7 @@
         <div class="card shadow p-3 mb-5 bg-white rounded">
             <div class="m-2">
             <h4 class="w3-center">My Profile</h4>
-            <img src="https://www.rd.com/wp-content/uploads/2017/09/01-shutterstock_476340928-Irina-Bg-1024x683.jpg" class="rounded-circle" width="100%" alt="Avatar">
+            <img :src="profilePicture" class="rounded-circle" width="100%" alt="Avatar">
             <hr>
             <p><i class="fa fa-address-card-o fa-fw "></i> {{username}}</p>
             <!-- <p><i class="fa fa-home fa-fw "></i> London, UK</p>
@@ -24,6 +24,7 @@
 import axios from 'axios'
 export default {
     name: 'SideNavBar',
+    props: ['dataUrl'],
     data() {
         return {
             profilePicture: '',
@@ -69,6 +70,21 @@ export default {
                 console.log(err)
             })
         },
+    },
+    watch: {
+        dataUrl: {
+            handler(val){
+                if (val) {
+                    this.profilePicture = val
+                }
+            }
+        }
+    },
+    created () {
+        if (this.dataUrl) {
+            this.profilePicture = this.dataUrl
+        }
+        this.profilePicture = localStorage.getItem('image_url')
     }
 }
 </script>

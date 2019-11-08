@@ -1,7 +1,7 @@
 <template>
   <div>
       <div class="col-12">
-        <update-profile v-if="updateForm"></update-profile>
+        <update-profile v-if="updateForm" @image_url='imageUrl'></update-profile>
         <div v-if="showList.status">
             <div class="row" >
                 <div class="col">
@@ -117,6 +117,10 @@ export default {
         }
     },
     methods: {
+        imageUrl (input) {
+            this.url = input
+            this.$emit('url', this.url)
+        },
         createComment () {
             console.log('masuk')
             axios({
@@ -194,6 +198,7 @@ export default {
                     this.formUploadImage.image = ''
                     this.captions = ''
                     this.url = ''
+                    this.fetchingData()
                 })
                 .catch (err => {
                     swal.close()

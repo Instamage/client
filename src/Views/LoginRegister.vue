@@ -1,6 +1,6 @@
 <template>
     <div>
-        <form-login v-on:change-page='changePage' v-if="page === 'login'"></form-login>
+        <form-login v-on:change-page='changePage' v-if="page === 'login'" @isLogin='isLogin'></form-login>
         <form-register v-on:change-page='changePage' v-else-if="page == 'register'"></form-register>
     </div>
 </template>
@@ -23,6 +23,9 @@ export default {
         changePage(name) {
             console.log(name)
             this.page = name
+        },
+        isLogin (input) {
+            this.$emit('isLogin', input)
         }
     }
 }

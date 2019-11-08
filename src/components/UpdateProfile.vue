@@ -85,6 +85,7 @@ export default {
                     }
                 })
                 .then (({ data }) => {
+                    localStorage.removeItem('image_url')
                     return axios({
                         url: 'http://localhost:3000/users/change',
                         method: 'patch',
@@ -105,6 +106,9 @@ export default {
                         timer: 2000,
                         showConfirmButton: false
                     })
+                    console.log(data)
+                    localStorage.setItem('image_url', data.user.profile_img)
+                    this.$emit('image_url', data.user.profile_img)
                     this.imageData = ''
                     this.formUploadImage.image = ''
                     this.oldPassword = ''
@@ -112,12 +116,12 @@ export default {
                     this.url = ''
                 })
                 .catch (err => {
+                    console.log(err)
                     swal.close()
                     swal.fire({
                         title: 'Failed creating new post',
                         icon: 'error',
                         showConfirmButton: false,
-                        text: err.response.data,
                         timer: 2000
                     })
                 })
