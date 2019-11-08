@@ -77,7 +77,7 @@ export default {
                 var bodyFormData = new FormData()
                 bodyFormData.append('image', image)
                 axios({
-                    url: 'http://localhost:3000/users/upload',
+                    url: 'https://instamage-server.sigitariprasetyo.xyz/users/upload',
                     method: 'patch',
                     data: bodyFormData,
                     headers: {
@@ -87,7 +87,7 @@ export default {
                 .then (({ data }) => {
                     localStorage.removeItem('image_url')
                     return axios({
-                        url: 'http://localhost:3000/users/change',
+                        url: 'https://instamage-server.sigitariprasetyo.xyz/users/change',
                         method: 'patch',
                         data: {
                             oldPassword: this.oldPassword,

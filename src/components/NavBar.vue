@@ -43,7 +43,7 @@ export default {
         },
         fetchData () {
             axios({
-                url: 'http://localhost:3000/posts/all',
+                url: 'https://instamage-server.sigitariprasetyo.xyz/posts/all',
                 method: 'get'
             })
             .then (({ data }) => {
