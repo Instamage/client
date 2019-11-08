@@ -194,6 +194,7 @@ export default {
                     this.formUploadImage.image = ''
                     this.captions = ''
                     this.url = ''
+                    this.fetchingData()
                 })
                 .catch (err => {
                     swal.close()
