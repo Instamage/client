@@ -39,6 +39,7 @@
 
 <script>
 import axios from 'axios'
+import swal from 'sweetalert2'
 export default {
     name: 'FormRegister',
     data: function() {
@@ -54,9 +55,14 @@ export default {
             this.$emit('change-page','login')
         },
         signUp() {
+            swal.fire({
+                title: 'creating a new user',
+                allowOutsideClick: () => this.swal.isLoading(),
+                showConfirmButton: false
+            })
             axios({
                 method: 'post',
-                url: 'http://localhost:3000/users/signup',
+                url: 'https://instamage-server.sigitariprasetyo.xyz/users/signup',
                 data: {
                     username: this.username,
                     email: this.emailRegister,
@@ -66,9 +72,23 @@ export default {
             .then(({data}) => {
                 this.$emit('change-page','login')
                 console.log(data)
+                swal.close()
+                swal.fire({
+                    title: `Success creating new user`,
+                    icon: 'success',
+                    timer: 2000,
+                    showConfirmButton: false
+                })
             })
             .catch(err => {
-                console.log(err)
+                swal.close()
+                swal.fire({
+                    title: 'Failed creating new user',
+                    icon: 'error',
+                    showConfirmButton: false,
+                    text: err.response.data.msg,
+                    timer: 2000
+                })
             })
         }
     }

@@ -24,6 +24,7 @@
 
 <script>
 import axios from 'axios'
+import swal from 'sweetalert2'
 export default {
     name: 'SideNavBar',
     props: ['dataUrl'],
@@ -37,8 +38,13 @@ export default {
     },
     methods: {
         showPublicFeed () {
+            swal.fire({
+                    title: 'fetching data',
+                    allowOutsideClick: () => this.swal.isLoading(),
+                    showConfirmButton: false
+            })
             axios({
-                url: 'http://localhost:3000/posts/all',
+                url: 'https://instamage-server.sigitariprasetyo.xyz/posts/all',
                 method: 'get',
                 headers: {
                     token: localStorage.getItem('token')
@@ -49,16 +55,22 @@ export default {
                 this.$emit('showListForm', {arrData: this.arrData, status:true })
                 this.$emit('showUpdateForm', false)
                 this.$emit('showAllUser', false)
-                console.log(data)
+                swal.close()
             })
             .catch (err => {
+                swal.close()
                 console.log(err)
             })
             
         },
         showFavoriteFeed () {
+            swal.fire({
+                    title: 'fetching data',
+                    allowOutsideClick: () => this.swal.isLoading(),
+                    showConfirmButton: false
+            })
             axios({
-                url: 'http://localhost:3000/posts',
+                url: 'https://instamage-server.sigitariprasetyo.xyz/posts',
                 method: 'get',
                 headers: {
                     token: localStorage.getItem('token')
@@ -66,18 +78,25 @@ export default {
             })
             .then (({ data }) => {
                 console.log(data)
+                swal.close()
                 this.arrData = data.reverse()
                 this.$emit('showListForm', {arrData: this.arrData, status:true })
                 this.$emit('showUpdateForm', false)
                 this.$emit('showAllUser', false)
             })
             .catch (err => {
+                swal.close()
                 console.log(err)
             })
         },
         showAllUser () {
+            swal.fire({
+                    title: 'fetching data',
+                    allowOutsideClick: () => this.swal.isLoading(),
+                    showConfirmButton: false
+            })
             axios({
-                url: 'http://localhost:3000/users',
+                url: 'https://instamage-server.sigitariprasetyo.xyz/users',
                 method: 'get',
                 headers: {
                     token: localStorage.getItem('token')
@@ -85,13 +104,15 @@ export default {
             })
             .then (({ data }) => {
                 this.arrUser = data
+                swal.close()
                 console.log(this.arrUser)
                 this.$emit('showListForm', {arrData:[], status: false})
                 this.$emit('showUpdateForm', false)
                 this.$emit('showAllUser', {arrUser: this.arrUser, status:true})
             })
             .catch (err => {
-
+                swal.close()
+                console.log(err)
             })
         }
     },
