@@ -49,13 +49,13 @@
                 </div>
                 <br>
                 <div class="row justify-content-between">
-                    <button class="btn btn-isi" @click="comment(data._id)" data-target="#commentForm" data-toggle="modal"><i class="fa fa-comment"></i>  Comment</button>
+                    <button class="btn btn-isi" @click="comment(data)" data-target="#commentForm" data-toggle="modal"><i class="fa fa-comment"></i>  Comment</button>
                     <p>Total Comments: &nbsp;{{data.comments.length}} </p>
                 </div>  
             </div>
         </div>
-
-        <div class="modal fade" id="commentForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    </div>
+    <div class="modal fade" id="commentForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                         <div class="modal-header">
@@ -65,14 +65,10 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            
-                            <div class="form-group" >
-                                <label>{{data.comments.length}}</label>
-                                <div v-for="(commentar,i) in data.comments" :key="i">
-                                    <h5>{{commentar.username}}</h5>
-                                    <br>
-                                    <p>{{commentar.comment}}</p>
-                                </div>
+                            <div class="form-group" v-for="(comment, index) in data.comments" :key="index">
+                                <h5>{{comment.username}}</h5>
+                                <br>
+                                <p>{{comment.comment}}</p>
                             </div>
                             <form >
                             <div class="form-group">
@@ -81,7 +77,7 @@
                             </form>
                             <div class="modal-footer">
                             <button type="button" class="btn btn-light" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn bg-warning" data-dismiss="modal" @click="createComment">Sign In</button>
+                            <button type="button" class="btn btn-isi" data-dismiss="modal" @click="createComment">Comment</button>
                             </div>
                         </div>
                         <!-- <div class="modal-footer">
@@ -93,29 +89,6 @@
                     </div>
                 </div>
             </div>
-
-        <!-- <div class="container card shadow p-3 mb-5 bg-white rounded">
-            <div class="row">
-                <h6 class="m-3">Username</h6>
-            </div>
-            <div class="col">
-                 <div class="row">
-                <img :src="url" alt="Avatar" class="left circle margin-right" width="100%">
-                <img src="https://media.suara.com/pictures/480x260/2014/04/21/shutterstock_123414550.jpg" alt="Avatar" width="100%">
-            </div>
-            <div class="row">
-                <p>{{captions}}</p>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-            </div>
-            
-            <button class="btn btn-isi"><i class="fa fa-thumbs-up"></i>  Like</button> 
-            <button class="btn btn-isi"><i class="fa fa-comment"></i>  Comment</button>
-            </div>
-        </div>   -->
-
-        
-        <!-- End Middle Column -->
-    </div>
   </div>
 </template>
 
@@ -138,14 +111,16 @@ export default {
             },
             url: '',
             userComment: '',
-            id : ''
+            data: {
+
+            }
         }
     },
     methods: {
         createComment () {
             console.log('masuk')
             axios({
-                url: `http://localhost:3000/posts/comment/${this.id}`,
+                url: `http://localhost:3000/posts/comment/${this.data._id}`,
                 method: 'post',
                 data: {
                     comment: this.userComment
@@ -165,10 +140,8 @@ export default {
             })
         },
         comment (id) {
-            this.id = id
-            axios({
-                url: `http://localhost:3000/posts`
-            })
+            this.data = id
+            console.log(this.data)
         },
         previewImage (event) {
             var input = event.target
@@ -184,7 +157,7 @@ export default {
         createPhoto() {
             if (!this.formUploadImage.image) {
                 swal.fire({
-                type: 'error',
+                icon: 'error',
                 title: 'failed to upload file ',
                 text: 'Cannot be empty',
                 showConfirmButton: false,
@@ -213,7 +186,7 @@ export default {
                     swal.close()
                     swal.fire({
                         title: 'Success Creating a new Post',
-                        type: 'success',
+                        icon: 'success',
                         timer: 2000,
                         showConfirmButton: false
                     })
@@ -226,7 +199,7 @@ export default {
                     swal.close()
                     swal.fire({
                         title: 'Failed creating new post',
-                        type: 'error',
+                        icon: 'error',
                         showConfirmButton: false,
                         text: err.response.data,
                         timer: 2000
@@ -256,7 +229,7 @@ export default {
                 method: 'get'
             })
             .then (({ data }) => {
-                this.showList.arrData = data
+                this.showList.arrData = data.reverse()
                 console.log(data)
             })
             .catch (err => {

@@ -41,7 +41,7 @@ export default {
                 }
             })
             .then (({ data }) => {
-                this.arrData = data
+                this.arrData = data.reverse()
                 this.$emit('showListForm', {arrData: this.arrData, status:true })
                 this.$emit('showUpdateForm', false)
                 console.log(data)
@@ -61,7 +61,7 @@ export default {
             })
             .then (({ data }) => {
                 console.log(data)
-                this.arrData = data
+                this.arrData = data.reverse()
                 this.$emit('showListForm', {arrData: this.arrData, status:true })
                 this.$emit('showUpdateForm', false)
             })

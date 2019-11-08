@@ -1,10 +1,10 @@
 <template>
   <div>
       <nav-bar @showListForm='showFormList' @showUpdateForm='showFormUpdate' @isLogin='isLogin'></nav-bar>
-      <div class="container " style="max-width:1400px;margin-top:80px">    
+      <div class="container " style="margin-top:80px">    
         <div class="main-body"> 
             <side-nav-bar @showListForm='showFormList' @showUpdateForm='showFormUpdate'></side-nav-bar>         
-            <middle-column :showList='showList' :updateForm='updateForm'></middle-column>
+            <middle-column :showList='showList' :updateForm='updateForm' class="col"></middle-column>
         </div>
     </div>
     <footer class="footer-home">

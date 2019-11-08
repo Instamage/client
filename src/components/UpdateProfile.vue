@@ -30,6 +30,8 @@
 </template>
 
 <script>
+import swal from 'sweetalert2'
+import axios from 'axios'
 export default {
     name: 'MiddleColumn',
     data () {
@@ -59,11 +61,11 @@ export default {
         updateProfile() {
             if (!this.formUploadImage.image) {
                 swal.fire({
-                type: 'error',
-                title: 'failed to upload file ',
-                text: 'Cannot be empty',
-                showConfirmButton: false,
-                timer: 2000
+                    icon: 'error',
+                    title: 'failed to upload file ',
+                    text: 'Cannot be empty',
+                    showConfirmButton: false,
+                    timer: 2000
                 })
             } else {
                 swal.fire({
@@ -73,19 +75,33 @@ export default {
                 })
                 let { image } = this.formUploadImage
                 var bodyFormData = new FormData()
-                bodyFormData.append('images', image)
-                bodyFormData.append('oldPassword', this.oldPassword)
-                bodyFormData.append('newPassword', this.newPassword)
+                bodyFormData.append('image', image)
                 axios({
-                    url: 'http://localhost:3000/upload',
-                    method: 'post',
-                    data: bodyFormData
+                    url: 'http://localhost:3000/users/upload',
+                    method: 'patch',
+                    data: bodyFormData,
+                    headers: {
+                        token: localStorage.getItem('token')
+                    }
+                })
+                .then (({ data }) => {
+                    return axios({
+                        url: 'http://localhost:3000/users/change',
+                        method: 'patch',
+                        data: {
+                            oldPassword: this.oldPassword,
+                            newPassword: this.newPassword
+                        },
+                        headers: {
+                            token: localStorage.getItem('token')
+                        }
+                    })
                 })
                 .then (({ data }) => {
                     swal.close()
                     swal.fire({
                         title: 'Success Updating profile',
-                        type: 'success',
+                        icon: 'success',
                         timer: 2000,
                         showConfirmButton: false
                     })
@@ -99,7 +115,7 @@ export default {
                     swal.close()
                     swal.fire({
                         title: 'Failed creating new post',
-                        type: 'error',
+                        icon: 'error',
                         showConfirmButton: false,
                         text: err.response.data,
                         timer: 2000

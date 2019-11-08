@@ -47,7 +47,7 @@ export default {
                 method: 'get'
             })
             .then (({ data }) => {
-                this.arrData = data
+                this.arrData = data.reverse()
                 console.log(data)
             })
             .catch (err => {
