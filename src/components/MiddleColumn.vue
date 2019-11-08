@@ -5,19 +5,19 @@
        
         <div v-if="allUser.status">
             <div class="d-flex flex-wrap">
-                <div class="col-3"  v-for="(user, index) in arrAllUser" :key="index">
+                <div class="col-4"  v-for="(user, index) in arrAllUser" :key="index">
                     <div class="card mt-2">
-                        <div class="card-header">
-                            <h3>{{user.username}}</h3>
-                        </div>
+                    <div style="display: inline">
+                    <img class="ml-3 my-3" :src="img" alt="" style="width:30px; height:30px; border-radius:50%; display:inline; border: 2px solid red">
+                    <p class="my-3" style="font-weight: bold; font-size: 18px; display:inline">{{user.username}}</p>
+                    </div>
+
                         <div class="card-body">
-                            <p>Follower Count: &nbsp;{{user.Followers.length}}</p>
+                            <p><b>{{user.Following.length}}</b> following</p>
+                            <p><b>{{user.Followers.length}}</b> followers</p>
                         </div>
-                        <div class="card-body">
-                            <p>Follower Count: &nbsp;{{user.Followers.length}}</p>
-                        </div>
-                        <button @click='followUser(user._id)'>Follow</button>
-                        <button @click="showUserPost(user._id)">Post</button>
+                        <button class="btn btn-isi" @click='followUser(user._id)'>Follow</button>
+                        <button class="btn btn-isi mt-1" @click="showUserPost(user._id)">Post</button>
                     </div>
                 </div>
             </div>
@@ -131,7 +131,6 @@
             </div>
         </div>
     </div>
-  </div>
 </template>
 
 <script>
