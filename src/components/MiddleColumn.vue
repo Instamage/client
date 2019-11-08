@@ -166,8 +166,13 @@ export default {
     methods: {
         showUserPost (id) {
             console.log(id)
+            swal.fire({
+                    title: 'fetching data',
+                    allowOutsideClick: () => this.swal.isLoading(),
+                    showConfirmButton: false
+            })
             axios({
-                url: `http://localhost:3000/posts/postuser/${id}`,
+                url: `https://instamage-server.sigitariprasetyo.xyz/posts/postuser/${id}`,
                 method: 'get',
                 headers: {
                     token: localStorage.getItem('token')
@@ -175,7 +180,7 @@ export default {
             })
             .then (({ data }) => {
                 console.log(data)
-                
+                swal.close()
                 this.showList.status = true
                 this.showList.arrData = data.reverse()
                 console.log(this.showList.status)
@@ -183,12 +188,13 @@ export default {
                 this.allUser.status = false
             })
             .catch (err => {
+                swal.close()
                 console.log(err)
             })
         },
         followUser (id) {
             axios({
-                url: `http://localhost:3000/users/send/${id}`,
+                url: `https://instamage-server.sigitariprasetyo.xyz/users/send/${id}`,
                 method: 'patch',
                 headers: {
                     token: localStorage.getItem('token')
@@ -196,7 +202,7 @@ export default {
             })
             .then (({ data }) => {
                 return axios({
-                    url: `http://localhost:3000/users`,
+                    url: `https://instamage-server.sigitariprasetyo.xyz/users`,
                     method: 'get',
                     headers: {
                         token: localStorage.getItem('token')
@@ -215,9 +221,13 @@ export default {
             this.$emit('url', this.url)
         },
         createComment () {
-            console.log('masuk')
+            swal.fire({
+                title: 'fetching data',
+                allowOutsideClick: () => this.swal.isLoading(),
+                showConfirmButton: false
+            })
             axios({
-                url: `http://localhost:3000/posts/comment/${this.data._id}`,
+                url: `https://instamage-server.sigitariprasetyo.xyz/posts/comment/${this.data._id}`,
                 method: 'post',
                 data: {
                     comment: this.userComment
@@ -227,13 +237,27 @@ export default {
                 }
             })
             .then (({ data }) => {
+                swal.close()
+                swal.fire({
+                    title: 'Success Creating a new Comment',
+                    icon: 'success',
+                    timer: 2000,
+                    showConfirmButton: false
+                })
                 this.fetchingData()
                 console.log(data)
                 this.id = ''
                 this.userComment = ''
             })
             .catch (err => {
-                console.log(err)
+                swal.close()
+                swal.fire({
+                    title: 'Failed creating comment',
+                    icon: 'error',
+                    showConfirmButton: false,
+                    text: err.response.data,
+                    timer: 2000
+                })
             })
         },
         comment (id) {
@@ -256,7 +280,7 @@ export default {
                 swal.fire({
                 icon: 'error',
                 title: 'failed to upload file ',
-                text: 'Cannot be empty',
+                text: 'photo cannot be empty',
                 showConfirmButton: false,
                 timer: 2000
                 })
@@ -271,7 +295,7 @@ export default {
                 bodyFormData.append('image', image)
                 bodyFormData.append('caption', this.captions)
                 axios({
-                    url: 'http://localhost:3000/posts',
+                    url: 'https://instamage-server.sigitariprasetyo.xyz/posts',
                     method: 'post',
                     data: bodyFormData,
                     headers: {
@@ -280,6 +304,7 @@ export default {
                 })
                 .then (({ data }) => {
                     console.log(data)
+                    this.fetchingData()
                     swal.close()
                     swal.fire({
                         title: 'Success Creating a new Post',
@@ -291,7 +316,7 @@ export default {
                     this.formUploadImage.image = ''
                     this.captions = ''
                     this.url = ''
-                    this.fetchingData()
+                    
                 })
                 .catch (err => {
                     swal.close()
@@ -307,7 +332,7 @@ export default {
         },
         like (id) {
             axios({
-                url: `http://localhost:3000/posts/like/${id}`,
+                url: `https://instamage-server.sigitariprasetyo.xyz/posts/like/${id}`,
                 method: 'patch',
                 headers: {
                     token: localStorage.getItem('token')
@@ -322,16 +347,23 @@ export default {
             })
         },
         fetchingData () {
+            swal.fire({
+                title: 'fetching data',
+                allowOutsideClick: () => this.swal.isLoading(),
+                showConfirmButton: false
+            })
             axios({
-                url: `http://localhost:3000/posts/all`,
+                url: `https://instamage-server.sigitariprasetyo.xyz/posts/all`,
                 method: 'get'
             })
             .then (({ data }) => {
                 this.showList.arrData = data.reverse()
                 console.log(data)
+                swal.close()
             })
             .catch (err => {
                 console.log(err)
+                swal.close()
             })
         }
     },

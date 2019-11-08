@@ -10,7 +10,7 @@
                     <h1 class="h1-login">Sign in</h1>
                     <p class="accountb">Don't have an account? <a href="#" v-on:click="showRegisterForm()">Sign up</a></p>
                         <div class="form-item">
-                            <label for="input">email address</label>
+                            <label for="input">email address / username</label>
                             <input v-model="emailSignIn" type="email" class="field" name="email" placeholder="someone@example.com" value required>
                         </div>
                         <div class="form-item">
@@ -33,6 +33,7 @@
 
 <script>
 import axios from 'axios'
+import swal from 'sweetalert2'
 export default {
     name: 'FormLogin',
     data: function() {
@@ -49,9 +50,14 @@ export default {
         login() {
             console.log(this.passwordSignIn)
             console.log(this.emailSignIn)
+            swal.fire({
+                title: 'logging user',
+                allowOutsideClick: () => this.swal.isLoading(),
+                showConfirmButton: false
+            })
             axios({
                 method: 'post',
-                url: 'http://localhost:3000/users/signin',
+                url: 'https://instamage-server.sigitariprasetyo.xyz/users/signin',
                 data: {
                     identity : this.emailSignIn,
                     password: this.passwordSignIn
@@ -63,6 +69,24 @@ export default {
                 localStorage.setItem('username', data.username)
                 localStorage.setItem('image_url', data.image_url)
                 this.$emit('isLogin', true)
+                swal.close()
+                swal.fire({
+                    title: `Welcome to Instamage ${data.username}`,
+                    icon: 'success',
+                    timer: 2000,
+                    showConfirmButton: false
+                })
+            })
+            .catch (err => {
+                // console.log(err.response.data.msg)
+                swal.close()
+                swal.fire({
+                    title: 'Failed Logging',
+                    icon: 'error',
+                    showConfirmButton: false,
+                    text: err.response.data.msg,
+                    timer: 2000
+                })
             })
         }
     }
