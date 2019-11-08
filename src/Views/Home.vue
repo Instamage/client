@@ -3,8 +3,8 @@
       <nav-bar @showListForm='showFormList' @showUpdateForm='showFormUpdate' @isLogin='isLogin'></nav-bar>
       <div class="container " style="margin-top:80px">    
         <div class="main-body"> 
-            <side-nav-bar @showListForm='showFormList' @showUpdateForm='showFormUpdate'></side-nav-bar>         
-            <middle-column :showList='showList' :updateForm='updateForm' class="col"></middle-column>
+            <side-nav-bar @showListForm='showFormList' @showUpdateForm='showFormUpdate' :dataUrl='dataUrl'></side-nav-bar>         
+            <middle-column :showList='showList' :updateForm='updateForm' class="col" @url="url"></middle-column>
         </div>
     </div>
     <footer class="footer-home">
@@ -31,10 +31,14 @@ export default {
             showList: true,
             loggedIn: {
                 status:true
-            }
+            },
+            dataUrl: ''
         }
     },
     methods: {
+        url (input) {
+            this.dataUrl = input
+        },
         showFormList (input) {
             this.showList = input
         },

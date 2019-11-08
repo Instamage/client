@@ -27,7 +27,7 @@
                             <input v-model="passwordRegister" type="password" id="password" class="field" name="password" placeholder="password" value required>
                         </div>
                         <div class="form-item">
-                            <button v-on:click="signUp()" type="submit" class="reg-btn">Sign up</button>
+                            <button v-on:click.prevent="signUp()" type="button" class="reg-btn">Sign up</button>
                         </div>
 
                     </form>
@@ -64,7 +64,6 @@ export default {
                 }
             })
             .then(({data}) => {
-                localStorage.setItem('token', data.token)
                 this.$emit('change-page','login')
                 console.log(data)
             })

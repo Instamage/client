@@ -1,7 +1,7 @@
 <template>
   <div>
     <Home @isLogin='isLogin' v-if="loggedIn"></Home>
-    <login-register></login-register>
+    <login-register @isLogin='isLogin' v-if="!loggedIn"></login-register>
   </div>
 </template>
 
@@ -12,7 +12,7 @@ export default {
   name: 'App',
   data () {
     return {
-      loggedIn: true
+      loggedIn: false
     }
   },
   components : {
@@ -22,6 +22,13 @@ export default {
   methods: {
     isLogin(input) {
       this.loggedIn = input
+    }
+  },
+  created () {
+    if (localStorage.getItem('token')) {
+      this.loggedIn = true
+    } else {
+      this.loggedIn = false
     }
   }
 }
