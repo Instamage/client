@@ -14,7 +14,9 @@
         <div class="card shadow p-3 mb-5 bg-white rounded">
                 <button @click="showPublicFeed" class="btn sidenavbar-item"><i class="fa fa-globe"></i> Public</button>
                 <br>
-                <button @click="showFavoriteFeed" class="btn sidenavbar-item"><i class="fa fa-users"></i> Your feed</button>     
+                <button @click="showFavoriteFeed" class="btn sidenavbar-item"><i class="fa fa-user"></i> Your feed</button>
+                <br>
+                <button @click="showAllUser" class="btn sidenavbar-item"><i class="fa fa-users"></i> Search User</button>   
         </div>
     <br>
     </div>
