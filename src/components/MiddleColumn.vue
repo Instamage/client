@@ -54,7 +54,7 @@
             <div class="container card shadow p-3 mb-5 bg-white rounded">
                 <div class="row justify-content-between">
                     <div style="display: inline">
-                    <img class="ml-3 my-3" :src="img" alt="" style="width:30px; height:30px; border-radius:50%; display:inline; border: 2px solid red">
+                    <img class="ml-3 my-3" :src="data.userId.profile_img" alt="" style="width:30px; height:30px; border-radius:50%; display:inline; border: 2px solid red">
                     <p class="my-3" style="font-weight: bold; font-size: 18px; display:inline">{{data.userId.username}}</p>
                     </div>
                     <span class="mr-3">
