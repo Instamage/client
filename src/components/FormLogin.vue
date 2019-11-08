@@ -14,18 +14,18 @@
 
                         <div class="form-item">
                             <label for="input">email address</label>
-                            <input type="email" class="field" name="email" placeholder="someone@example.com" value required>
+                            <input v-model="emailSignIn" type="email" class="field" name="email" placeholder="someone@example.com" value required>
                         </div>
                         <div class="form-item">
                             <label for="input">password</label>
-                            <input type="password" class="field" name="password" placeholder="password" value required>
+                            <input v-model="passwordSignIn" type="password" class="field" name="password" placeholder="password" value required>
                         </div>
                         <div class="form-item">
                             <input type="checkbox" id="cbox1" value="first_checkbox" checked>
                             <label for="cbox1">Remember Me</label>
                         </div>
                         <div class="form-item">
-                            <button type="submit" class="signin-btn">Sign in</button>
+                            <button v-on:click="login()" type="submit" class="signin-btn">Sign in</button>
                         </div>
                         <a href="#" class="forgot">Forgot Password?</a>
 
@@ -37,12 +37,32 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
     name: 'FormLogin',
+    data: function() {
+        return {
+            emailSignIn: '',
+            passwordSignIn: ''
+        }
+    },
     methods: {
         showRegisterForm() {
             console.log('akan ke register')
             this.$emit('change-page','register')
+        },
+        login() {
+            axios({
+                method: 'post',
+                url: 'http://localhost:3000/users/signin',
+                data: {
+                    email : this.emailSignIn,
+                    password: this.passwordSignIn
+                }
+            })
+            .then(({data}) => {
+                localStorage.setItem('token', data.token)
+            })
         }
     }
 }
