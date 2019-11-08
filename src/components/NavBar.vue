@@ -5,12 +5,12 @@
         <div class="navbar navbar-expand-lg" style="background-color: #4d636f;">
             <div class="container d-flex justify-content-between">
             <div>
-                <a href="#" class="navbar-item btn item-list" title="Instamage" ><i class="fa fa-camera w3-margin-right" ></i>Instamage</a>
+                <a href="#" class="navbar-item btn item-list" title="Instamage" ><i class="fa fa-camera w3-margin-right fa-lg" ></i> <span class="instamage">Instamage</span></a>
             </div>
             <div>
-                <a href="#" class="navbar-item btn item-list" title="Public" @click="showListForm"><i class="fa fa-globe"></i></a>
-                <a href="#" class="navbar-item btn item-list" title="Account Settings" @click="showUpdateForm"><i class="fa fa-user"></i></a>
-                <a href="#" class="navbar-item btn item-list" title="signout" @click="signOut"><i class="fa fa-sign-out"></i></a>
+                <a href="#" class="navbar-item btn item-list" title="Public" @click="showListForm"><i class="fa fa-globe fa-lg"></i></a>
+                <a href="#" class="navbar-item btn item-list" title="Account Settings" @click="showUpdateForm"><i class="fa fa-user fa-lg"></i></a>
+                <a href="#" class="navbar-item btn item-list" title="signout" @click="signOut"><i class="fa fa-sign-out fa-lg"></i></a>
             </div>
             </div>
         </div>
@@ -62,6 +62,14 @@ export default {
 </script>
 
 <style>
+.instamage {
+    font-family: 'Satisfy', cursive;
+    font-size: 25px;
+    line-height: 15px;
+}
+.item-list{
+    color: white;
+}
 .item-list:hover {
     cursor: pointer;
     color: antiquewhite;

@@ -31,27 +31,50 @@
             </div>
             <div v-for="(data, index) in showList.arrData" :key="index">
             <div class="container card shadow p-3 mb-5 bg-white rounded">
-                <div class="row">
-                    <h6 class="m-3">{{data.userId.username}}</h6>
+                <div class="row justify-content-between">
+                    <div style="display: inline">
+                    <img class="ml-3 my-3" :src="img" alt="" style="width:30px; height:30px; border-radius:50%; display:inline; border: 2px solid red">
+                    <p class="my-3" style="font-weight: bold; font-size: 18px; display:inline">{{data.userId.username}}</p>
+                    </div>
+                    <span class="mr-3">
+                        <div
+                            class="fb-share-button"
+                            :data-href="data.image_url"
+                            data-layout="button"
+                            data-size="small"
+                            >
+                            <a
+                                style="text-align: left"
+                                target="_blank"
+                                :href="'https://www.facebook.com/sharer/sharer.php?u=' + data.image_url"
+                                class="fb-xfbml-parse-ignore"
+                                onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;"
+                            >
+                                <span style="text-align: left">
+                                Facebook
+                                </span>
+                            </a>
+                        </div>
+                    </span>
                 </div>
                 <div class="col">
                     <div class="row">
                     <img :src="data.image_url" alt="Avatar" class="img-thumbnai" width="100%">
                     <!-- <img src="https://media.suara.com/pictures/480x260/2014/04/21/shutterstock_123414550.jpg" alt="Avatar" width="100%" class="img-thumbnail"> -->
                 </div>
-                <div class="row">
-                    <!-- <p>{{captions}}</p> -->
-                    <p>{{data.caption}}</p>
-                </div>
                 <div class="row justify-content-between">
-                    <button class="btn btn-isi" @click="like(data._id)"><i class="fa fa-thumbs-up"></i>  Like</button>
                     <p>Total Like: &nbsp;{{data.Likes.length}} </p>
+                    <p>Total Comments: &nbsp;{{data.comments.length}} </p>
                 </div>
                 <br>
                 <div class="row justify-content-between">
+                    <button class="btn btn-isi" @click="like(data._id)"><i class="fa fa-thumbs-up"></i>  Like</button>
                     <button class="btn btn-isi" @click="comment(data)" data-target="#commentForm" data-toggle="modal"><i class="fa fa-comment"></i>  Comment</button>
-                    <p>Total Comments: &nbsp;{{data.comments.length}} </p>
-                </div>  
+                </div> 
+                <div class="row">
+                    <!-- <p>{{captions}}</p> -->
+                    <p class="m-3" style="font-weight: bold; font-size: 18px;">{{data.userId.username}}</p> <span class="ml-1 mt-3">{{data.caption}}</span> 
+                </div>
             </div>
         </div>
     </div>
@@ -104,6 +127,7 @@ export default {
     },
     data () {
         return {
+            img: localStorage.getItem('image_url'),
             imageData: '',
             captions: '',
             formUploadImage: {
